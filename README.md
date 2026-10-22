@@ -15,7 +15,7 @@ No package installation or build is needed (Pillow, if installed, adds a photo-m
 
 The visual system follows OurCat's 22 October 2026 app design: blue actions, navy text, pale blue canvas and mint selection. Lora headings and Mulish body text are served locally as WOFF2; their Open Font Licences are in `assets/fonts/`.
 
-`assets/history.png` is the app's accepted Features guide History capture (`ourcat_guide_history_1.png`, captured 22 October 2026 from source `23a2ffc1be029794727f155ca173034e48a7f873`), with fictional Miso/Sam records. It is shown as a development preview, not evidence of a published test build.
+`assets/today.png` is a capture of the app's Today screen. It was made on 22 October 2026 from OurCat source `dcad00cc` as a fake-backend release web build with the `features-guide` demo seed, at 360×740 and 2×. The browser clock was set to 11:00 so the seed's relative times read naturally, and the fresh-water reminder was marked done in the app. The top 26 dp (the FAKE DATA badge) are cropped off, as in the Features guide captures. The records (Miso, Sam) are fictional. It is shown as a development preview, not evidence of a published test build.
 
 `assets/tokyo-wall.jpg` and `assets/tokyo-stretch.jpg` are the owner's own photos of their cat, Tokyo, used with permission. They were cropped and resized, and every embedded metadata field (including location) was removed. Do not add location-revealing photos, and keep the story general: no vet names, conditions, dates or places.
 
