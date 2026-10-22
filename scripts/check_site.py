@@ -36,7 +36,16 @@ for name, page in pages.items():
     require(any(t == 'meta' and a.get('name') == 'description' and a.get('content') for t,a in page.tags), 'page description')
     require(bool(re.search(r'<title>[^<]+</title>', source)), 'page title')
     require(not any(t in ('script','iframe','form') for t,a in page.tags), 'no website scripts, embeds or custom data collection')
-    if name in ('join.html','guide.html','feedback.html'):
+    nav = re.search(r'<nav aria-label="Main navigation">(.*?)</nav>', source)
+    nav_links = re.findall(r'href="([^"]+)"[^>]*>([^<]+)</a>', nav.group(1)) if nav else []
+    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('test.html','Try OurCat'),('feedback.html','Feedback'),('support.html','Help')], 'header menu is Try OurCat, Feedback, Help')
+    for heading in re.findall(r'<h[1-3][^>]*>([^<]*)</h[1-3]>', source):
+        require(not heading.rstrip().endswith('.'), f'heading without a full stop: {heading}')
+    for tag, attrs in page.tags:
+        if tag == 'meta' and attrs.get('property') == 'og:image':
+            local = attrs.get('content', '').split('/ourcat-public-pages/', 1)[-1]
+            require((ROOT / local).is_file(), f'link-preview image exists: {local}')
+    if name in ('join.html','guide.html','feedback.html','404.html'):
         require(any(t == 'meta' and a.get('name') == 'robots' and 'noindex' in a.get('content','') for t,a in page.tags), 'private-journey noindex')
     else:
         require(any(t == 'link' and a.get('rel') == 'canonical' for t,a in page.tags), 'public canonical URL')
@@ -70,6 +79,20 @@ if 'support-development' not in pages.get('support.html',Page('')).ids:
     errors.append('missing legacy development-support fragment')
 if 'test-forms' not in pages.get('privacy.html',Page('')).ids:
     errors.append('missing form privacy fragment')
+if 'temporary-carers' not in pages.get('privacy.html',Page('')).ids:
+    errors.append('missing temporary-carer privacy fragment')
+try:
+    from PIL import Image
+except ImportError:
+    print('Pillow not installed: photo metadata check skipped')
+else:
+    for photo in sorted((ROOT/'assets').glob('*.jpg')):
+        with Image.open(photo) as image:
+            if image.getexif() or image.info.get('exif'):
+                errors.append(f'{photo.name}: remove embedded metadata (EXIF/location)')
+    with Image.open(ROOT/'assets'/'share.png') as image:
+        if image.size != (1200, 630):
+            errors.append(f'share.png: expected 1200x630, found {image.size}')
 print(f'{len(pages)} pages checked; {len(errors)} errors')
 for error in errors:
     print('ERROR:',error)
