@@ -60,7 +60,7 @@ details{border-top:1px solid var(--edge)}details:last-child{border-bottom:1px so
 .contents{display:block;margin:34px 0;padding:24px;background:var(--card);border:1px solid var(--edge);border-radius:14px}.contents h2{font-size:1.5rem}.contents ul{columns:2;column-gap:36px;padding-left:1.15em;margin-bottom:0;font-size:1rem}.contents li{break-inside:avoid;margin-bottom:10px}
 .policy-body h2{font-size:1.75rem;margin:44px 0 18px;padding-top:28px;border-top:1px solid var(--divider)}.policy-body{font-size:1.0625rem}.privacy-summary h2{font-size:1.5625rem}.privacy-summary{font-size:1rem}
 .site-footer{border-top:1px solid var(--edge);background:var(--card);padding-block:26px}.footer-inner{display:grid;grid-template-columns:auto 1fr;gap:8px 40px;align-items:center}.footer-inner nav{justify-content:flex-end;gap:6px 22px}.footer-inner nav a{font-size:0.875rem;display:inline-flex;align-items:center;min-height:44px}.footer-inner p{grid-column:1/-1;margin:4px 0 0}.footer-brand{font-size:1.5625rem}
-.status{font-size:1rem;line-height:1.55;margin:0 0 4px;padding:12px 16px;background:var(--card);border:1px solid var(--edge);border-radius:12px;max-width:34em}.status time{display:block;font-weight:700;color:var(--brand);font-size:0.875rem;letter-spacing:.02em}
+.status{font-size:1rem;line-height:1.55;margin:0 0 4px;padding:12px 16px;background:var(--card);border:1px solid var(--edge);border-radius:12px;max-width:34em}.status strong{display:block;font-weight:700;color:var(--brand);font-size:0.875rem;letter-spacing:.02em}
 .steps .step-aside{margin-top:10px;padding-left:14px;border-left:3px solid var(--mint-ink);font-size:1rem;color:var(--ink)}
 .note-ask{border-left-color:var(--brand)}
 .story{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:72px;align-items:start;margin-top:70px;padding-top:56px}
@@ -70,7 +70,7 @@ details{border-top:1px solid var(--edge)}details:last-child{border-bottom:1px so
 .print figcaption{color:var(--brand);font-weight:600;font-size:0.9375rem;text-align:left;margin:0;padding:10px 4px 12px}
 .print-small{max-width:300px;margin-top:30px;transform:rotate(1.2deg)}
 .moments h2{margin-bottom:28px}
-.moment-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+.moment-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px;max-width:52rem}
 .moment-list li{padding:0 0 0 18px;margin:0;border-left:3px solid var(--mint-ink)}
 .moment-list p{margin:0}.moment-when{font-family:Lora,Georgia,serif;font-weight:600;font-size:1.25rem;margin-bottom:6px!important}
 .moments-note{margin:30px 0 0;color:var(--muted)}
