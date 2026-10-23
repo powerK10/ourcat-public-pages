@@ -23,6 +23,13 @@ The visual system follows OurCat's 22 October 2026 app design: blue actions, nav
 
 ## Editing and publishing
 
+The 23 October 2026 copy refinement keeps the owner story, one-day reply
+promise, eligibility and legal pages. The recruitment page explains the app
+before asking for an invitation, and links directly to its demo screenshot.
+Joining help follows the app's resend, address-correction and return-to-app
+actions. It deliberately does not name a custom email sender or subject:
+Firebase currently refuses template updates for this project.
+
 - Keep existing `.html` routes and the `support.html#support-development` fragment working: they have external and in-app callers.
 - Keep joining, guide, feedback and 404 pages marked `noindex`. This is a search preference, not access control.
 - Keep personal responses out of this repository. Never publish Google Forms editor or response links.
