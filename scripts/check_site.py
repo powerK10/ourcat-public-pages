@@ -21,6 +21,14 @@ class Page(HTMLParser):
             self.ids.append(attrs['id'])
 
 errors = []
+if not (ROOT/'CNAME').is_file() or (ROOT/'CNAME').read_bytes() != b'ourcat.app\n':
+    errors.append('CNAME: expected ourcat.app followed by a single LF')
+old_url = b'powerk10.github.io/' + b'ourcat-public-pages'
+for path in sorted(ROOT.rglob('*')):
+    if '.git' in path.relative_to(ROOT).parts or path == ROOT/'README.md':
+        continue
+    if path.is_file() and old_url in path.read_bytes():
+        errors.append(f'{path.relative_to(ROOT)}: old project URL remains')
 pages = {p.name: Page(p.read_text(encoding='utf-8')) for p in ROOT.glob('*.html')}
 for name, page in pages.items():
     def require(condition, message):
@@ -43,7 +51,7 @@ for name, page in pages.items():
         require(not heading.rstrip().endswith('.'), f'heading without a full stop: {heading}')
     for tag, attrs in page.tags:
         if tag == 'meta' and attrs.get('property') == 'og:image':
-            local = attrs.get('content', '').split('/ourcat-public-pages/', 1)[-1]
+            local = attrs.get('content', '').split('https://ourcat.app/', 1)[-1]
             require((ROOT / local).is_file(), f'link-preview image exists: {local}')
     if name in ('join.html','guide.html','feedback.html','404.html'):
         require(any(t == 'meta' and a.get('name') == 'robots' and 'noindex' in a.get('content','') for t,a in page.tags), 'private-journey noindex')
@@ -62,8 +70,9 @@ for name, page in pages.items():
             if parsed.scheme == 'mailto':
                 require(parsed.path == 'mycatapps@gmail.com', 'correct public mailbox')
             continue
-        require(not parsed.path.startswith('/'), f'project-site relative path: {url}')
-        target = ROOT / unquote(parsed.path or name)
+        require(not parsed.netloc, f'local URL without external host: {url}')
+        local = unquote(parsed.path).lstrip('/')
+        target = ROOT / (local or ('index.html' if parsed.path else name))
         require(target.is_file(), f'local target exists: {url}')
         if parsed.fragment and target.suffix == '.html' and target.name in pages:
             require(unquote(parsed.fragment) in pages[target.name].ids, f'fragment exists: {url}')

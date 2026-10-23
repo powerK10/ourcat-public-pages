@@ -1,6 +1,14 @@
 # OurCat public website
 
-Static, accessible pages for OurCat early access, help, contributions, privacy and account deletion. GitHub Pages serves the repository root. All site paths are relative so they work beneath `/ourcat-public-pages/`.
+Static, accessible pages for OurCat early access, help, contributions, privacy and account deletion. GitHub Pages serves the repository root. The live site is https://ourcat.app/, served at the domain root; the 404 page uses root-relative links.
+
+## Domains
+
+- Main site: https://ourcat.app (GitHub Pages custom domain, set by the `CNAME` file, with HTTPS enforced).
+- www.ourcat.app redirects to the apex. ourcat.co.uk redirects via the separate repository `powerK10/ourcat-co-uk-redirect`.
+- Old github.io links get GitHub's automatic 301 redirect to ourcat.app.
+- DNS: Namecheap for ourcat.app (keep the email-forwarding MX records); GoDaddy for ourcat.co.uk.
+- Rollback: remove the custom domain in Pages settings and delete `CNAME`.
 
 ## Preview and check
 
