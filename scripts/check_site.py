@@ -46,7 +46,7 @@ for name, page in pages.items():
     require(not any(t in ('script','iframe','form') for t,a in page.tags), 'no website scripts, embeds or custom data collection')
     nav = re.search(r'<nav aria-label="Main navigation">(.*?)</nav>', source)
     nav_links = re.findall(r'href="([^"]+)"[^>]*>([^<]+)</a>', nav.group(1)) if nav else []
-    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('test','Try OurCat'),('feedback','Feedback'),('support','Help')], 'header menu is Try OurCat, Feedback, Help')
+    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('features','What it does'),('test','Try OurCat'),('feedback','Feedback'),('support','Help')], 'header menu is What it does, Try OurCat, Feedback, Help')
     for heading in re.findall(r'<h[1-3][^>]*>([^<]*)</h[1-3]>', source):
         require(not heading.rstrip().endswith('.'), f'heading without a full stop: {heading}')
     for tag, attrs in page.tags:
