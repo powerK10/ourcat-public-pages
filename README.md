@@ -27,6 +27,8 @@ The visual system follows OurCat's 22 October 2026 app design: blue actions, nav
 
 `assets/tokyo-wall.jpg` and `assets/tokyo-stretch.jpg` are the owner's own photos of their cat, Tokyo, used with permission. They were cropped and resized, and every embedded metadata field (including location) was removed. Do not add location-revealing photos, and keep the story general: no vet names, conditions, dates or places.
 
+`assets/features/*.png` (used by `features.html`, 24 October 2026) are byte copies of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×). The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up. If the app's guide captures are retaken, recopy them and check the captions still match. The page tells one made-up day in short moments beside the screenshots; keep that plain first-person voice rather than a features grid. The iPhone wording says a version is being worked on, with no date.
+
 `assets/share.png` (1200×630) is the link-preview image. Its source is `scripts/share-card.html`; re-render it with a headless browser at a 1200×630 window after changing that file.
 
 ## Editing and publishing
