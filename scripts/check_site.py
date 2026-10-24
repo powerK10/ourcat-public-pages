@@ -46,7 +46,7 @@ for name, page in pages.items():
     require(not any(t in ('script','iframe','form') for t,a in page.tags), 'no website scripts, embeds or custom data collection')
     nav = re.search(r'<nav aria-label="Main navigation">(.*?)</nav>', source)
     nav_links = re.findall(r'href="([^"]+)"[^>]*>([^<]+)</a>', nav.group(1)) if nav else []
-    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('test.html','Try OurCat'),('feedback.html','Feedback'),('support.html','Help')], 'header menu is Try OurCat, Feedback, Help')
+    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('test','Try OurCat'),('feedback','Feedback'),('support','Help')], 'header menu is Try OurCat, Feedback, Help')
     for heading in re.findall(r'<h[1-3][^>]*>([^<]*)</h[1-3]>', source):
         require(not heading.rstrip().endswith('.'), f'heading without a full stop: {heading}')
     for tag, attrs in page.tags:
@@ -57,6 +57,10 @@ for name, page in pages.items():
         require(any(t == 'meta' and a.get('name') == 'robots' and 'noindex' in a.get('content','') for t,a in page.tags), 'private-journey noindex')
     else:
         require(any(t == 'link' and a.get('rel') == 'canonical' for t,a in page.tags), 'public canonical URL')
+        expected = 'https://ourcat.app/' + ('' if name == 'index.html' else name[:-len('.html')])
+        require([a.get('href') for t,a in page.tags if t == 'link' and a.get('rel') == 'canonical'] == [expected], f'canonical is {expected}')
+        og_urls = [a.get('content') for t,a in page.tags if t == 'meta' and a.get('property') == 'og:url']
+        require(og_urls in ([], [expected]), f'og:url is {expected}')
     for tag, attrs in page.tags:
         if tag == 'img':
             require('alt' in attrs, 'image alternative')
@@ -65,6 +69,11 @@ for name, page in pages.items():
         if not url:
             continue
         parsed = urlsplit(url)
+        if tag in ('a','link') and (
+            not parsed.scheme and not parsed.netloc
+            or parsed.scheme in ('http','https') and parsed.hostname == 'ourcat.app'
+        ):
+            require(not unquote(parsed.path).endswith('.html'), f'clean internal href: {url}')
         if parsed.scheme:
             require(parsed.scheme in ('https','mailto'), f'allowed URL scheme: {url}')
             if parsed.scheme == 'mailto':
@@ -72,7 +81,13 @@ for name, page in pages.items():
             continue
         require(not parsed.netloc, f'local URL without external host: {url}')
         local = unquote(parsed.path).lstrip('/')
+        if parsed.path in ('./', '/'):
+            local = 'index.html'
         target = ROOT / (local or ('index.html' if parsed.path else name))
+        if parsed.path and not parsed.path.endswith('/') and not target.suffix and not target.is_file():
+            html_target = target.with_suffix('.html')
+            if html_target.is_file():
+                target = html_target
         require(target.is_file(), f'local target exists: {url}')
         if parsed.fragment and target.suffix == '.html' and target.name in pages:
             require(unquote(parsed.fragment) in pages[target.name].ids, f'fragment exists: {url}')

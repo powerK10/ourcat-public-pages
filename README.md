@@ -13,9 +13,11 @@ Static, accessible pages for OurCat early access, help, contributions, privacy a
 ## Preview and check
 
 ```sh
-python -m http.server 8769 --bind 127.0.0.1
+python scripts/preview.py
 python scripts/check_site.py
 ```
+
+Open http://127.0.0.1:8769/ and run the checker in another terminal. The preview server serves extensionless page URLs and uses `404.html` for missing paths. Clean URLs on the live site rely on GitHub Pages; keep every `.html` file in place so existing routes and fragments continue to work. Use `/features`, not `/features/`.
 
 No package installation or build is needed (Pillow, if installed, adds a photo-metadata check). The site uses no scripts, analytics, embedded forms or payment processing. Google Forms handles invitation requests and feedback; the contribution action links to Revolut.
 
