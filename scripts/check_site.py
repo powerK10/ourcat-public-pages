@@ -128,6 +128,9 @@ for name in ('index.html', 'test.html', 'features.html'):
 for name in ('index.html', 'test.html'):
     if 'Device%28s%29' not in (ROOT/name).read_text(encoding='utf-8'):
         errors.append(f'{name}: invitation email fallback must ask for platform')
+    fallback = (ROOT/name).read_text(encoding='utf-8')
+    if 'Google%20Play%20country' not in fallback or 'App%20Store%20country' not in fallback:
+        errors.append(f'{name}: email fallback must ask for each store country')
 joining = (ROOT/'join.html').read_text(encoding='utf-8')
 for section_id in ('android', 'ios'):
     if section_id not in pages['join.html'].ids:

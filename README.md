@@ -54,3 +54,5 @@ Firebase currently refuses template updates for this project.
 Invitation and feedback Forms keep their existing public links. Both send native new-response alerts to mycatapps@gmail.com. The invitation response workbook has private operational tabs; no participant details belong here. Platform choices include Android, iPhone/iPad and both. Google Play account and 14-day opt-in wording applies only to Android. The iOS joining section remains conditional on external TestFlight approval; do not infer it from an owner install. Update current availability only after an authenticated Apple readback.
 
 TestFlight compatibility was checked on 26 October against its current [UK App Store listing](https://apps.apple.com/gb/app/testflight/id899247664): iOS 16.0 or iPadOS 16.0 or later. This is the TestFlight client requirement, separate from OurCat build 1’s minimum 15.0. Keep this distinction in recruitment and joining help.
+
+For a both-platform request, keep Google Play and App Store country evidence on separate private tracker rows. The Form asks for Play country plus App Store country in the note; a missing second country stays unknown, never assumed eligible.
