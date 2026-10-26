@@ -117,6 +117,36 @@ else:
     with Image.open(ROOT/'assets'/'share.png') as image:
         if image.size != (1200, 630):
             errors.append(f'share.png: expected 1200x630, found {image.size}')
+# Cross-platform recruitment must not send iOS applicants down the Play-only route.
+for name in ('index.html', 'test.html', 'features.html'):
+    source = (ROOT/name).read_text(encoding='utf-8')
+    for stale in ('working on an iPhone version', 'working on the iPhone version', 'test is Android only', 'It isn’t ready yet'):
+        if stale in source:
+            errors.append(f'{name}: stale platform claim: {stale}')
+    if 'iPhone' not in source or 'Apple' not in source:
+        errors.append(f'{name}: missing iOS request availability/gate')
+for name in ('index.html', 'test.html'):
+    if 'Device%28s%29' not in (ROOT/name).read_text(encoding='utf-8'):
+        errors.append(f'{name}: invitation email fallback must ask for platform')
+joining = (ROOT/'join.html').read_text(encoding='utf-8')
+for section_id in ('android', 'ios'):
+    if section_id not in pages['join.html'].ids:
+        errors.append(f'join.html: missing {section_id} joining section')
+android_section = re.search(r'<section[^>]*id="android"[^>]*>(.*?)</section>', joining, re.S)
+if not android_section or '14 days in a row' not in android_section.group(1):
+    errors.append('join.html: Google 14-day request must stay inside Android section')
+if 'no Google Play account or 14-day opt-in requirement for iPhone/iPad' not in joining:
+    errors.append('join.html: iOS joining must distinguish Google requirements')
+privacy = (ROOT/'privacy.html').read_text(encoding='utf-8')
+if 'Firebase Analytics is not used and crash reporting is off' in privacy or '<p>Crash reporting and its supporting' in privacy:
+    errors.append('privacy.html: broad crash-reporting-off wording hides TestFlight collection')
+if 'Apple’s TestFlight' not in privacy or 'working tracker' not in privacy:
+    errors.append('privacy.html: missing platform testing/private working-copy handling')
+expected_preview = 'Free early access, by invitation.'
+for name, page in pages.items():
+    for tag, attrs in page.tags:
+        if tag == 'meta' and attrs.get('property') == 'og:image:alt' and expected_preview not in attrs.get('content', ''):
+            errors.append(f'{name}: stale link-preview platform text')
 print(f'{len(pages)} pages checked; {len(errors)} errors')
 for error in errors:
     print('ERROR:',error)

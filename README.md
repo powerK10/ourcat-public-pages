@@ -29,7 +29,7 @@ The visual system follows OurCat's 22 October 2026 app design: blue actions, nav
 
 `assets/tokyo-wall.jpg` and `assets/tokyo-stretch.jpg` are the owner's own photos of their cat, Tokyo, used with permission. They were cropped and resized, and every embedded metadata field (including location) was removed. Do not add location-revealing photos, and keep the story general: no vet names, conditions, dates or places.
 
-`assets/features/*.png` (used by `features.html`, 24 October 2026) are byte copies of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×). The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up. If the app's guide captures are retaken, recopy them and check the captions still match. The page tells one made-up day in short moments beside the screenshots; keep that plain first-person voice rather than a features grid. The iPhone wording says a version is being worked on, with no date.
+`assets/features/*.png` (used by `features.html`, 24 October 2026) are byte copies of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×). The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up. If the app's guide captures are retaken, recopy them and check the captions still match. The page tells one made-up day in short moments beside the screenshots; keep that plain first-person voice rather than a features grid. Android invitations are available; iPhone/iPad requests are open while the first TestFlight build awaits Apple’s review. Owner installation is separate from external availability and notification acceptance.
 
 `assets/share.png` (1200×630) is the link-preview image. Its source is `scripts/share-card.html`; re-render it with a headless browser at a 1200×630 window after changing that file.
 
@@ -48,3 +48,7 @@ Firebase currently refuses template updates for this project.
 - Check content against the released app before describing version-specific behaviour. Do not infer an available Play release from a screenshot.
 - Privacy and deletion wording must retain the verified processing, sharing and retention details. Preview substantive changes before publishing.
 - A push to `main` publishes the site. Review and verify one revision, publish it, then check the deployed pages and form destinations.
+
+## Tester operations — 26 October 2026
+
+Invitation and feedback Forms keep their existing public links. Both send native new-response alerts to mycatapps@gmail.com. The invitation response workbook has private operational tabs; no participant details belong here. Platform choices include Android, iPhone/iPad and both. Google Play account and 14-day opt-in wording applies only to Android. The iOS joining section remains conditional on external TestFlight approval; do not infer it from an owner install. Update current availability only after an authenticated Apple readback.
