@@ -46,14 +46,14 @@ for name, page in pages.items():
     require(not any(t in ('script','iframe','form') for t,a in page.tags), 'no website scripts, embeds or custom data collection')
     nav = re.search(r'<nav aria-label="Main navigation">(.*?)</nav>', source)
     nav_links = re.findall(r'href="([^"]+)"[^>]*>([^<]+)</a>', nav.group(1)) if nav else []
-    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('features','What it does'),('test','Try OurCat'),('feedback','Feedback'),('support','Help')], 'header menu is What it does, Try OurCat, Feedback, Help')
+    require([(h.rsplit('/', 1)[-1], t) for h, t in nav_links] == [('features','What it does'),('test','How it works'),('feedback','Feedback'),('help','Help')], 'header menu is What it does, How it works, Feedback, Help')
     for heading in re.findall(r'<h[1-3][^>]*>([^<]*)</h[1-3]>', source):
         require(not heading.rstrip().endswith('.'), f'heading without a full stop: {heading}')
     for tag, attrs in page.tags:
         if tag == 'meta' and attrs.get('property') == 'og:image':
             local = attrs.get('content', '').split('https://ourcat.app/', 1)[-1]
             require((ROOT / local).is_file(), f'link-preview image exists: {local}')
-    if name in ('join.html','guide.html','feedback.html','404.html'):
+    if name in ('join.html','guide.html','feedback.html','404.html','support.html'):
         require(any(t == 'meta' and a.get('name') == 'robots' and 'noindex' in a.get('content','') for t,a in page.tags), 'private-journey noindex')
     else:
         require(any(t == 'link' and a.get('rel') == 'canonical' for t,a in page.tags), 'public canonical URL')
@@ -96,11 +96,17 @@ css = (ROOT/'site.css').read_text()
 for path in re.findall(r'url\([\'\"]?([^\)\'\"]+)',css):
     if not (ROOT/path).is_file():
         errors.append(f'site.css: missing {path}')
-for path in ('privacy.html','support.html','delete-account.html','test.html','join.html','guide.html','feedback.html','contribute.html'):
+for path in ('privacy.html','support.html','help.html','delete-account.html','test.html','join.html','guide.html','feedback.html','contribute.html'):
     if path not in pages:
         errors.append(f'missing public/legacy route: {path}')
-if 'support-development' not in pages.get('support.html',Page('')).ids:
-    errors.append('missing legacy development-support fragment')
+# support.html is the in-app destination: it must forward to the contribution page.
+for legacy in ('support.html', 'contribute.html'):
+    if 'support-development' not in pages.get(legacy,Page('')).ids:
+        errors.append(f'{legacy}: missing legacy development-support fragment')
+if '<meta http-equiv="refresh" content="0; url=contribute">' not in (ROOT/'support.html').read_text(encoding='utf-8'):
+    errors.append('support.html: must forward the in-app link to contribute')
+if 'href="contribute"' not in (ROOT/'help.html').read_text(encoding='utf-8'):
+    errors.append('help.html: keep a quiet link to the contribution page')
 if 'test-forms' not in pages.get('privacy.html',Page('')).ids:
     errors.append('missing form privacy fragment')
 if 'temporary-carers' not in pages.get('privacy.html',Page('')).ids:
@@ -123,8 +129,8 @@ for name in ('index.html', 'test.html', 'features.html'):
     for stale in ('working on an iPhone version', 'working on the iPhone version', 'test is Android only', 'It isn’t ready yet'):
         if stale in source:
             errors.append(f'{name}: stale platform claim: {stale}')
-    if 'iPhone' not in source or 'Apple' not in source:
-        errors.append(f'{name}: missing iOS request availability/gate')
+    if 'iPhone' not in source or (name != 'index.html' and 'TestFlight' not in source):
+        errors.append(f'{name}: missing iOS request availability')
 for name in ('index.html', 'test.html'):
     if 'Device%28s%29' not in (ROOT/name).read_text(encoding='utf-8'):
         errors.append(f'{name}: invitation email fallback must ask for platform')
@@ -150,6 +156,31 @@ for name, page in pages.items():
     for tag, attrs in page.tags:
         if tag == 'meta' and attrs.get('property') == 'og:image:alt' and expected_preview not in attrs.get('content', ''):
             errors.append(f'{name}: stale link-preview platform text')
+# Apple approved the first TestFlight build (28 October readback): no page may still say it is pending.
+for name in pages:
+    if name == 'privacy.html':
+        continue  # legal wording changes only with the owner's approval of the preview
+    source = (ROOT/name).read_text(encoding='utf-8')
+    for stale in ('awaiting Apple', 'Apple approves', 'Apple’s approval', 'Apple’s review', 'Apple’s TestFlight review', 'TestFlight approval', 'follow Apple'):
+        if stale in source:
+            errors.append(f'{name}: stale iOS pending claim: {stale}')
+# Search files: the site is served from the domain root, so robots.txt and sitemap.xml take effect.
+robots = (ROOT/'robots.txt').read_text(encoding='utf-8') if (ROOT/'robots.txt').is_file() else ''
+if 'Sitemap: https://ourcat.app/sitemap.xml' not in robots:
+    errors.append('robots.txt: missing sitemap line')
+sitemap = (ROOT/'sitemap.xml').read_text(encoding='utf-8') if (ROOT/'sitemap.xml').is_file() else ''
+listed = re.findall(r'<loc>([^<]+)</loc>', sitemap)
+if not listed:
+    errors.append('sitemap.xml: no URLs')
+for loc in listed:
+    route = loc.split('https://ourcat.app/', 1)[-1]
+    page_name = (route or 'index') + '.html'
+    if not loc.startswith('https://ourcat.app/') or page_name not in pages:
+        errors.append(f'sitemap.xml: no page for {loc}')
+        continue
+    tags = pages[page_name].tags
+    if any(t == 'meta' and a.get('name') == 'robots' and 'noindex' in a.get('content', '') for t, a in tags):
+        errors.append(f'sitemap.xml: {loc} is noindex')
 print(f'{len(pages)} pages checked; {len(errors)} errors')
 for error in errors:
     print('ERROR:',error)

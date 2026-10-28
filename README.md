@@ -29,7 +29,7 @@ The visual system follows OurCat's 22 October 2026 app design: blue actions, nav
 
 `assets/tokyo-wall.jpg` and `assets/tokyo-stretch.jpg` are the owner's own photos of their cat, Tokyo, used with permission. They were cropped and resized, and every embedded metadata field (including location) was removed. Do not add location-revealing photos, and keep the story general: no vet names, conditions, dates or places.
 
-`assets/features/*.png` (used by `features.html`, 24 October 2026) are byte copies of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×). The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up. If the app's guide captures are retaken, recopy them and check the captions still match. The page tells one made-up day in short moments beside the screenshots; keep that plain first-person voice rather than a features grid. Android invitations are available; iPhone/iPad requests are open while the first TestFlight build awaits Apple’s review. Owner installation is separate from external availability and notification acceptance.
+`assets/features/*.png` (used by `features.html`, 24 October 2026) are byte copies of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×). The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up. If the app's guide captures are retaken, recopy them and check the captions still match. The page tells one made-up day in short moments beside the screenshots; keep that plain first-person voice rather than a features grid. Owner installation is separate from external availability and notification acceptance.
 
 `assets/share.png` (1200×630) is the link-preview image. Its source is `scripts/share-card.html`; re-render it with a headless browser at a 1200×630 window after changing that file.
 
@@ -42,8 +42,11 @@ Joining help follows the app's resend, address-correction and return-to-app
 actions. It deliberately does not name a custom email sender or subject:
 Firebase currently refuses template updates for this project.
 
-- Keep existing `.html` routes and the `support.html#support-development` fragment working: they have external and in-app callers.
-- Keep joining, guide, feedback and 404 pages marked `noindex`. This is a search preference, not access control.
+- Keep existing `.html` routes working: they have external and in-app callers. `support.html` is the in-app "More about support" destination and forwards to `contribute` (meta refresh, `noindex`, with a link to Help); the real help page is `help.html`, reached by the "Help" menu item. If the app link later points at `contribute`, `support.html` can stay as a forwarder for older builds.
+- Contributions live on `contribute.html` only. The footer and menu do not carry them while recruiting; `help.html` has one quiet link.
+- Keep joining, guide, feedback, support-forwarder and 404 pages marked `noindex`. This is a search preference, not access control. `robots.txt` and `sitemap.xml` list only the public pages; add a page to the sitemap only if it is indexable.
+- The iPhone/iPad status sentence ("invitations are available", via TestFlight) appears on the home, test, features and join pages. Change them together; `scripts/check_site.py` rejects the old "awaiting Apple" wording.
+- Home, features and test pages use a header "Request invitation" button, and the phone-width pages also have a sticky button that appears after scrolling (CSS scroll-driven animation; browsers without support simply do not show it).
 - Keep personal responses out of this repository. Never publish Google Forms editor or response links.
 - Check content against the released app before describing version-specific behaviour. Do not infer an available Play release from a screenshot.
 - Privacy and deletion wording must retain the verified processing, sharing and retention details. Preview substantive changes before publishing.
@@ -51,7 +54,7 @@ Firebase currently refuses template updates for this project.
 
 ## Tester operations — 26 October 2026
 
-Invitation and feedback Forms keep their existing public links. Both send native new-response alerts to mycatapps@gmail.com. The invitation response workbook has private operational tabs; no participant details belong here. Platform choices include Android, iPhone/iPad and both. Google Play account and 14-day opt-in wording applies only to Android. The iOS joining section remains conditional on external TestFlight approval; do not infer it from an owner install. Update current availability only after an authenticated Apple readback.
+Invitation and feedback Forms keep their existing public links. Both send native new-response alerts to mycatapps@gmail.com. The invitation response workbook has private operational tabs; no participant details belong here. Platform choices include Android, iPhone/iPad and both. Google Play account and 14-day opt-in wording applies only to Android. Apple approved TestFlight build 1.0.0 (2) for external testing (authenticated readback, 28 October 2026), so the pages no longer describe iOS as pending review. Do not infer availability from an owner install; keep platform status tied to an authenticated Apple readback. `privacy.html` still says TestFlight is used “when Apple approves external testing”; changing that legal wording needs the owner’s approval of a preview.
 
 TestFlight compatibility was checked on 26 October against its current [UK App Store listing](https://apps.apple.com/gb/app/testflight/id899247664): iOS 16.0 or iPadOS 16.0 or later. This is the TestFlight client requirement, separate from OurCat build 1’s minimum 15.0. Keep this distinction in recruitment and joining help.
 
