@@ -107,5 +107,5 @@ details{border-top:1px solid var(--edge)}details:last-child{border-bottom:1px so
 .features .section{border-top:2px solid var(--rule);padding-top:44px}
 @media(max-width:680px){.site-header .brand{font-size:2rem}.site-header .brand-mark{width:42px;height:42px;margin-right:8px}.footer-brand .brand-mark{width:32px;height:32px;margin-right:8px}.features .section{padding-top:34px}}
 @media print{.brand-mark{display:none}}
-.os{white-space:nowrap}.os-icon{width:1.15em;height:1.15em;fill:currentColor;vertical-align:-.2em;margin-right:.3em}.os-outline{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.os{white-space:nowrap}.os-icon{width:1.15em;height:1.15em;fill:currentColor;vertical-align:-.2em;margin-right:.3em}
 @media(max-width:359px){.site-header .brand{font-size:1.75rem}.site-header .brand-mark{width:36px;height:36px}}
