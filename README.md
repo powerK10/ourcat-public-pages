@@ -31,6 +31,8 @@ The visual system follows OurCat's 22 October 2026 app design: blue actions, nav
 
 `assets/features/*.webp` (used by `features.html`) are lossless WebP conversions (`Pillow`, `lossless=True`) of six in-app Features guide captures from the OurCat repo (`assets/features_guide/`, source `43629a7b`, fake backend, `features-guide` seed, 360 dp at 2×), 56% smaller than the PNGs with identical pixels. The records (Miso, Pip, Sam, demo vets with 020 0000 numbers) are made up, and the page deliberately does not say so or that the screenshots are Android (owner decision, 28 October 2026). If the app's guide captures are retaken, reconvert them and check the captions and alt text still match. The page tells one day in short moments beside the screenshots, with the phone alternating sides (zigzag, owner preference); keep that plain first-person voice rather than a features grid. Moment headings state the benefit, with the time of day above. Owner installation is separate from external availability and notification acceptance.
 
+`assets/paw.webp` (128×128, shown at 32–40 px) is the app's paw from `assets/brand/splash_mark.png` in the OurCat repo, trimmed to its edges and squared. It sits before the wordmark in the header and footer with `alt=""`, because the link text already names OurCat.
+
 `assets/share.png` (1200×630) is the link-preview image. Its source is `scripts/share-card.html`; re-render it with a headless browser at a 1200×630 window after changing that file.
 
 ## Editing and publishing
