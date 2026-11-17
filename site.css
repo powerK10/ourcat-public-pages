@@ -80,7 +80,7 @@ details{border-top:1px solid var(--edge)}details:last-child{border-bottom:1px so
 @media(max-width:380px){.site-header nav{justify-content:space-between;gap:0 2px}.site-header nav a{padding-inline:4px}.actions>.button{width:100%}.hero h1{font-size:2.3125rem}.footer-inner nav{gap:0 20px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 @media print{body{background:white;color:black;font-size:12pt}.site-header,.site-footer,.skip,.actions{display:none}.wrap{width:100%;max-width:none}main{padding:0}.note,.contents{background:white}details .answer{display:block}.screen,.print{box-shadow:none;transform:none}}
-.limits{max-width:760px}
+.good-to-know{max-width:760px}
 .brand{margin-right:auto}.site-header nav{order:2}
 .header-cta{order:3;display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;background:var(--action);border:2px solid var(--action);border-radius:12px;color:white;font:700 .9375rem/1.3 Mulish,system-ui,sans-serif;text-decoration:none;white-space:nowrap}.header-cta:hover{background:var(--action-pressed);border-color:var(--action-pressed);color:white;text-decoration:none}
 .points{list-style:none;padding:0;margin:0 0 20px}.points li{position:relative;margin:0 0 6px;padding-left:28px;font-size:1rem;font-weight:600;line-height:1.5}.points li::before{content:"";position:absolute;left:4px;top:.5em;width:12px;height:12px;border-radius:50%;background:var(--mint-ink)}
